@@ -4,30 +4,46 @@ from typing import List
 
 
 class Events(Enum):
-    DATA = 'scraper:data'
-    METRICS = 'scraper:metrics'
-    END = 'scraper:end'
-    ERROR = 'scraper:error'
-    INVALID_SESSION = 'scraper:invalid-session'
+    DATA = "scraper:data"
+    METRICS = "scraper:metrics"
+    END = "scraper:end"
+    ERROR = "scraper:error"
+    INVALID_SESSION = "scraper:invalid-session"
 
 
 class EventData(NamedTuple):
-    query: str = ''
-    location: str = ''
-    job_id: str = ''
+    query: str = ""
+    location: str = ""
+    job_id: str = ""
     job_index: int = -1  # Only for debug
-    link: str = ''
-    apply_link: str = ''
-    title: str = ''
-    company: str = ''
-    company_link: str = ''
-    company_img_link: str = ''
-    place: str = ''
-    description: str = ''
-    description_html: str = ''
-    date: str = ''
+    link: str = ""
+    apply_link: str = ""
+    title: str = ""
+    company: str = ""
+    company_link: str = ""
+    company_img_link: str = ""
+    place: str = ""
+    description: str = ""
+    description_html: str = ""
+    date: str = ""
     insights: List[str] = []
     skills: List[str] = []
+
+    def __hash__(self):
+        return (
+            hash(self.title)
+            ^ hash(self.company)
+            ^ hash(self.date)
+            ^ hash(self.description)
+        )
+
+    def __eq__(self, other):
+        return (
+            self.title == other.title
+            and self.company == other.company
+            and self.date == other.date
+            and self.description == other.description
+        )
 
 
 class EventMetrics:
@@ -37,4 +53,4 @@ class EventMetrics:
     skipped: int = 0  # Number of skipped jobs
 
     def __str__(self):
-        return f'{{ processed: {self.processed}, failed: {self.failed}, missed: {self.missed}, skipped: {self.skipped} }}'
+        return f"{{ processed: {self.processed}, failed: {self.failed}, missed: {self.missed}, skipped: {self.skipped} }}"
