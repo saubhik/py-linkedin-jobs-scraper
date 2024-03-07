@@ -11,17 +11,25 @@ from linkedin_jobs_scraper.filters import (
 import telegram_send
 import time
 import asyncio
+import re
 
 seen = set()
 
 
 def on_data(data: EventData):
-    if "testing" in data.description.lower() and data not in seen:
+    if data not in seen:
         seen.add(data)
+
+        # Get the job ID.
+        pattern = re.compile(r"/(\d+)/")
+        match = pattern.search(data.link)
+        job_id = match.group(1)
+        url = f"https://www.linkedin.com/jobs/view/{job_id}/"
+
         asyncio.run(
             telegram_send.send(
                 messages=[
-                    f"Title: {data.title}\nCompany: {data.company}\nDate: {data.date}\nLink: {data.link}"
+                    f"Title: {data.title}\nCompany: {data.company}\nDate: {data.date}\nLink: {url}"
                 ]
             )
         )
@@ -30,7 +38,7 @@ def on_data(data: EventData):
             data.title,
             data.company,
             data.date,
-            data.link,
+            url,
             len(data.description),
         )
 
@@ -64,7 +72,7 @@ queries = [
             filters=QueryFilters(
                 company_jobs_url=None,
                 relevance=RelevanceFilters.RECENT,
-                time=TimeFilters.WEEK,
+                time=TimeFilters.DAY,
                 type=TypeFilters.FULL_TIME,
                 experience=None,
                 on_site_or_remote=None,
