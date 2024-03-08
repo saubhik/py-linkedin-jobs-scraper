@@ -100,6 +100,6 @@ queries = [
 
 while True:
     scraper.run(queries)
-    time.sleep(600)  # sleep 10 minutes
+    time.sleep(60)  # sleep 1 minute
     if len(seen) > 1000:
         seen.clear()
