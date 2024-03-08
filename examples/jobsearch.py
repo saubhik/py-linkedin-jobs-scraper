@@ -21,8 +21,9 @@ def on_data(data: EventData):
         seen.add(data)
 
         # Get the job ID.
-        pattern = re.compile(r"/(\d+)/")
-        match = pattern.search(data.link)
+        match = re.search(r"/(\d+)/", data.link)
+        if not match:
+            match = re.search(r"currentJobId=(\d+)", data.link)
         job_id = match.group(1)
         url = f"https://www.linkedin.com/jobs/view/{job_id}/"
 
@@ -72,7 +73,7 @@ queries = [
             filters=QueryFilters(
                 company_jobs_url=None,
                 relevance=RelevanceFilters.RECENT,
-                time=TimeFilters.DAY,
+                time=TimeFilters.WEEK,
                 type=TypeFilters.FULL_TIME,
                 experience=None,
                 on_site_or_remote=None,
