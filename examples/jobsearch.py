@@ -17,7 +17,7 @@ seen = set()
 
 
 def on_data(data: EventData):
-    if data not in seen:
+    if data not in seen and "selenium" in data.description.casefold():
         seen.add(data)
 
         # Get the job ID.
