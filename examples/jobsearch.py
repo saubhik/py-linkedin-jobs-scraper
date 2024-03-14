@@ -17,37 +17,40 @@ seen = set()
 
 
 def on_data(data: EventData):
-    if data not in seen:
-        contains_keywords = any(
-            keyword in data_description_lower for keyword in ["selenium", "java", "c#"]
-        )
-        if not contains_keywords:
-            return
+    if data in seen:
+        return
 
-        seen.add(data)
+    contains_keywords = any(
+        keyword in data.description.casefold() for keyword in ["selenium", "java", "c#"]
+    )
 
-        # Get the job ID.
-        match = re.search(r"/(\d+)/", data.link)
-        if not match:
-            match = re.search(r"currentJobId=(\d+)", data.link)
-        job_id = match.group(1)
-        url = f"https://www.linkedin.com/jobs/view/{job_id}/"
+    if not contains_keywords:
+        return
 
-        asyncio.run(
-            telegram_send.send(
-                messages=[
-                    f"Title: {data.title}\nCompany: {data.company}\nDate: {data.date}\nLink: {url}"
-                ]
-            )
+    seen.add(data)
+
+    # Get the job ID.
+    match = re.search(r"/(\d+)/", data.link)
+    if not match:
+        match = re.search(r"currentJobId=(\d+)", data.link)
+    job_id = match.group(1)
+    url = f"https://www.linkedin.com/jobs/view/{job_id}/"
+
+    asyncio.run(
+        telegram_send.send(
+            messages=[
+                f"Title: {data.title}\nCompany: {data.company}\nDate: {data.date}\nLink: {url}"
+            ]
         )
-        print(
-            "[ON_DATA]",
-            data.title,
-            data.company,
-            data.date,
-            url,
-            len(data.description),
-        )
+    )
+    print(
+        "[ON_DATA]",
+        data.title,
+        data.company,
+        data.date,
+        url,
+        len(data.description),
+    )
 
 
 def on_error(error):
@@ -79,7 +82,7 @@ queries = [
             filters=QueryFilters(
                 company_jobs_url=None,
                 relevance=RelevanceFilters.RECENT,
-                time=TimeFilters.DAY,
+                time=TimeFilters.WEEK,
                 type=TypeFilters.FULL_TIME,
                 experience=None,
                 on_site_or_remote=None,
@@ -107,6 +110,5 @@ queries = [
 
 while True:
     scraper.run(queries)
-    time.sleep(60)  # sleep 1 minute
-    if len(seen) > 1000:
+    if len(seen) > 10000:
         seen.clear()
