@@ -21,7 +21,8 @@ def on_data(data: EventData):
         return
 
     contains_keywords = any(
-        keyword in data.description.casefold() for keyword in ["selenium", "java", "c#"]
+        keyword in data.description.casefold()
+        for keyword in ["selenium", "java", "c#", "python", "c++", "sql"]
     )
 
     if not contains_keywords:
@@ -82,30 +83,15 @@ queries = [
             filters=QueryFilters(
                 company_jobs_url=None,
                 relevance=RelevanceFilters.RECENT,
-                time=TimeFilters.WEEK,
+                time=TimeFilters.DAY,
                 type=TypeFilters.FULL_TIME,
-                experience=None,
+                experience=ExperienceLevelFilters.ENTRY_LEVEL,
                 on_site_or_remote=None,
                 industry=None,
             ),
         ),
     )
-    for query in [
-        "Quality Assurance Engineer",
-        "QA Engineer",
-        "SDET",
-        "QA",
-        "Quality Assurance",
-        "QA Tester",
-        "QA Analyst",
-        "Quality Engineer",
-        "Testing Analyst",
-        "Software Test Engineer",
-        "Automation Engineer",
-        "Test Automation",
-        "Test Engineer",
-        "Software Tester",
-    ]
+    for query in ["software", "selenium"]
 ]
 
 while True:
