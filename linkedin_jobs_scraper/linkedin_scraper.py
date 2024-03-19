@@ -112,6 +112,9 @@ class LinkedinScraper:
 
         if len(location) > 0:
             params["location"] = location
+        
+        # Under 10 applicants
+        params["f_EA"] = "true"
 
         if query.options.filters is not None:
             if query.options.filters.company_jobs_url is not None:

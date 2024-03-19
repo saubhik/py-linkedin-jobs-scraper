@@ -17,15 +17,26 @@ seen = set()
 
 
 def on_data(data: EventData):
-    if data in seen:
-        return
-
     contains_keywords = any(
         keyword in data.description.casefold()
-        for keyword in ["selenium", "java", "c#", "python", "c++", "sql"]
+        for keyword in [
+            "selenium",
+            "java",
+            "c#",
+            ".net",
+            "python",
+            "javascript",
+            "c++",
+            "sql",
+            "azure",
+            "tableau",
+        ]
     )
 
     if not contains_keywords:
+        return
+
+    if data in seen:
         return
 
     seen.add(data)
@@ -75,23 +86,25 @@ scraper.on(Events.END, on_end)
 
 queries = [
     Query(
-        query=query,
         options=QueryOptions(
             locations=["Toronto", "Greater Toronto Area", "Ontario"],
-            limit=50,
+            limit=500,
             skip_promoted_jobs=True,
             filters=QueryFilters(
                 company_jobs_url=None,
                 relevance=RelevanceFilters.RECENT,
                 time=TimeFilters.DAY,
                 type=None,
-                experience=ExperienceLevelFilters.ENTRY_LEVEL,
+                experience=[
+                    ExperienceLevelFilters.ENTRY_LEVEL,
+                    ExperienceLevelFilters.ASSOCIATE,
+                    ExperienceLevelFilters.MID_SENIOR,
+                ],
                 on_site_or_remote=None,
                 industry=None,
             ),
         ),
     )
-    for query in ["software", "selenium"]
 ]
 
 while True:
