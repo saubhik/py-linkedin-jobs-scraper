@@ -98,7 +98,6 @@ queries = [
                 experience=[
                     ExperienceLevelFilters.ENTRY_LEVEL,
                     ExperienceLevelFilters.ASSOCIATE,
-                    ExperienceLevelFilters.MID_SENIOR,
                 ],
                 on_site_or_remote=None,
                 industry=None,
