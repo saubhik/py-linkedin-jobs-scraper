@@ -17,24 +17,23 @@ seen = set()
 
 
 def on_data(data: EventData):
-    contains_keywords = any(
-        keyword in data.description.casefold()
-        for keyword in [
-            "selenium",
-            "java",
-            "c#",
-            ".net",
-            "python",
-            "javascript",
-            "c++",
-            "sql",
-            "azure",
-            "tableau",
-        ]
-    )
-
-    if not contains_keywords:
-        return
+    # contains_keywords = any(
+    #     keyword in data.description.casefold()
+    #     for keyword in [
+    #         "selenium",
+    #         "java",
+    #         "c#",
+    #         ".net",
+    #         "python",
+    #         "javascript",
+    #         "c++",
+    #         "sql",
+    #         "azure",
+    #         "tableau",
+    #     ]
+    # )
+    # if not contains_keywords:
+    #     return
 
     if data in seen:
         return
@@ -97,7 +96,6 @@ queries = [
                 type=None,
                 experience=[
                     ExperienceLevelFilters.ENTRY_LEVEL,
-                    ExperienceLevelFilters.ASSOCIATE,
                 ],
                 on_site_or_remote=None,
                 industry=None,
@@ -108,5 +106,5 @@ queries = [
 
 while True:
     scraper.run(queries)
-    if len(seen) > 10000:
+    if len(seen) > 100_000:
         seen.clear()
