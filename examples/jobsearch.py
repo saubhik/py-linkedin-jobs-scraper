@@ -17,23 +17,23 @@ seen = set()
 
 
 def on_data(data: EventData):
-    contains_keywords = any(
-        keyword in data.description.casefold()
-        for keyword in [
-            "selenium",
-            "java",
-            "c#",
-            ".net",
-            "python",
-            "javascript",
-            "c++",
-            "sql",
-            "azure",
-            "tableau",
-        ]
-    )
-    if not contains_keywords:
-        return
+    # contains_keywords = any(
+        # keyword in data.description.casefold()
+        # for keyword in [
+            # "selenium",
+            # "java",
+            # "c#",
+            # ".net",
+            # "python",
+            # "javascript",
+            # "c++",
+            # "sql",
+            # "azure",
+            # "tableau",
+        # ]
+    # )
+    # if not contains_keywords:
+        # return
 
     if data in seen:
         return
