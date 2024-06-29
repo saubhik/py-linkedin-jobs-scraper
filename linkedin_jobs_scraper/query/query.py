@@ -1,12 +1,5 @@
 from typing import List, Union
-from ..filters import (
-    TimeFilters,
-    ExperienceLevelFilters,
-    TypeFilters,
-    RelevanceFilters,
-    OnSiteOrRemoteFilters,
-    IndustryFilters,
-)
+from ..filters import TimeFilters, ExperienceLevelFilters, TypeFilters, RelevanceFilters, OnSiteOrRemoteFilters, IndustryFilters, SalaryBaseFilters
 from ..utils.url import get_query_params
 
 
@@ -33,24 +26,22 @@ class QueryFilters(__Base):
             return filter
         return []
 
-    def __init__(
-        self,
-        company_jobs_url: str = None,
-        relevance: RelevanceFilters = None,
-        time: TimeFilters = None,
-        type: Union[TypeFilters, List[TypeFilters]] = None,
-        experience: Union[ExperienceLevelFilters, List[ExperienceLevelFilters]] = None,
-        on_site_or_remote: Union[
-            OnSiteOrRemoteFilters, List[OnSiteOrRemoteFilters]
-        ] = None,
-        industry: Union[IndustryFilters, List[IndustryFilters]] = None,
-    ):
+    def __init__(self,
+                 company_jobs_url: str = None,
+                 relevance: RelevanceFilters = None,
+                 time: TimeFilters = None,
+                 type: Union[TypeFilters, List[TypeFilters]] = None,
+                 experience: Union[ExperienceLevelFilters, List[ExperienceLevelFilters]] = None,
+                 on_site_or_remote: Union[OnSiteOrRemoteFilters, List[OnSiteOrRemoteFilters]] = None,
+                 base_salary: SalaryBaseFilters = None,
+                 industry: Union[IndustryFilters, List[IndustryFilters]] = None):
 
         super().__init__()
 
         self.company_jobs_url = company_jobs_url
         self.relevance = relevance
         self.time = time
+        self.base_salary = base_salary
         self.type = self.process_filter(type)
         self.experience = self.process_filter(experience)
         self.on_site_or_remote = self.process_filter(on_site_or_remote)
@@ -78,6 +69,12 @@ class QueryFilters(__Base):
 
         if self.time is not None and not isinstance(self.time, TimeFilters):
             raise ValueError("Parameter time must be of type TimeFilters")
+
+        if self.base_salary is not None and not isinstance(self.base_salary, SalaryBaseFilters):
+            raise ValueError('Parameter base_salary must be of type SalaryBaseFilters')
+
+        if self.base_salary is not None and not isinstance(self.base_salary, SalaryBaseFilters):
+            raise ValueError('Parameter base_salary must be of type SalaryBaseFilters')
 
         if any((not isinstance(e, TypeFilters) for e in self.type)):
             raise ValueError(
