@@ -135,6 +135,14 @@ class LinkedinScraper:
                 params["f_TPR"] = query.options.filters.time.value
                 debug(tag, "Applied time filter", query.options.filters.time)
 
+            if query.options.filters.base_salary is not None:
+                params['f_SB2'] = query.options.filters.base_salary.value
+                debug(tag, 'Applied base salary filter', query.options.filters.base_salary)
+
+            if query.options.filters.base_salary is not None:
+                params['f_SB2'] = query.options.filters.base_salary.value
+                debug(tag, 'Applied base salary filter', query.options.filters.base_salary)
+
             if len(query.options.filters.type) > 0:
                 filters = ",".join(e.value for e in query.options.filters.type)
                 params["f_JT"] = filters
@@ -203,12 +211,11 @@ class LinkedinScraper:
                 websocket_debugger_url = get_websocket_debugger_url(driver)
                 info("Websocket debugger url: ", websocket_debugger_url)
 
-                driver.execute_cdp_cmd("Network.enable", {})
-                driver.execute_cdp_cmd("Page.setBypassCSP", {"enabled": True})
-                driver.execute_cdp_cmd(
-                    "Network.setUserAgentOverride",
-                    {"userAgent": get_random_user_agent()},
-                )
+                driver.execute_cdp_cmd('Network.enable', {})
+                driver.execute_cdp_cmd('Page.setBypassCSP', {'enabled': True})
+
+                # This can cause the session cookie to be invalidated earlier then expected
+                # driver.execute_cdp_cmd('Network.setUserAgentOverride', {'userAgent': get_random_user_agent()})
 
                 # Run strategy
                 self._strategy.run(

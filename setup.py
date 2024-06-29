@@ -4,11 +4,11 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="linkedin-jobs-scraper",
-    version="4.0.0",
-    author="Ludovico Fabbri",
-    author_email="ludovico.fabbri@gmail.com",
-    description="Scrape public available jobs on Linkedin using headless browser",
+    name='linkedin-jobs-scraper',
+    version='4.1.1',
+    author='Ludovico Fabbri',
+    author_email='ludovico.fabbri@gmail.com',
+    description='Scrape public available jobs on Linkedin using headless browser',
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/spinlud/py-linkedin-jobs-scraper.git",
