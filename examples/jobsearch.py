@@ -28,7 +28,6 @@ def on_data(data: EventData):
             "javascript",
             "c++",
             "sql",
-            "software",
             "azure",
             "tableau",
         ]
