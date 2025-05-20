@@ -12,6 +12,9 @@ import telegram_send
 import time
 import asyncio
 import re
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 seen = set()
 
