@@ -27,18 +27,22 @@ def on_data(data: EventData):
             "python",
             "javascript",
             "c++",
+            "cpp",
             "sql",
             "azure",
             "tableau",
+            "QA",
+            "cypress",
+            "playwright",
         ]
     )
     if not contains_keywords:
         return
 
-    if data in seen:
-        return
+    # if data in seen:
+    #     return
 
-    seen.add(data)
+    # seen.add(data)
 
     # Get the job ID.
     match = re.search(r"/(\d+)/", data.link)
@@ -88,6 +92,7 @@ queries = [
         options=QueryOptions(
             locations=["Toronto", "Greater Toronto Area", "Ontario"],
             limit=500,
+            apply_link=True,
             skip_promoted_jobs=True,
             filters=QueryFilters(
                 company_jobs_url=None,

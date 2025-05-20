@@ -48,7 +48,9 @@ I am not responsible in any way for the inappropriate use of data extracted thro
 ## Installation
 Install package:
 ```shell
+python3 -m venv linkedin_jobs_scraper
 pip install linkedin-jobs-scraper
+apt install chromium-chromedriver
 ```
 
 
