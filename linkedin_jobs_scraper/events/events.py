@@ -16,16 +16,17 @@ class EventData(NamedTuple):
     location: str = ""
     job_id: str = ""
     job_index: int = -1  # Only for debug
-    link: str = ""
-    apply_link: str = ""
-    title: str = ""
-    company: str = ""
-    company_link: str = ""
-    company_img_link: str = ""
-    place: str = ""
-    description: str = ""
-    description_html: str = ""
-    date: str = ""
+    link: str = ''
+    apply_link: str = ''
+    title: str = ''
+    company: str = ''
+    company_link: str = ''
+    company_img_link: str = ''
+    place: str = ''
+    description: str = ''
+    description_html: str = ''
+    date: str = ''
+    date_text: str = ''
     insights: List[str] = []
     skills: List[str] = []
 
